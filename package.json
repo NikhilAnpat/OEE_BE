@@ -7,14 +7,17 @@
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "postinstall": "prisma generate",
+    "seed": "node scripts/seed.js",
     "dev": "npm run prisma:generate && npm run prisma:push && nodemon src/server.js",
     "start": "npm run prisma:generate && npm run prisma:push && node src/server.js"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.1.4",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.11",

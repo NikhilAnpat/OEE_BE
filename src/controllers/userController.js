@@ -12,7 +12,6 @@ function parseId(req) {
 
 async function createUser(req, res, next) {
   try {
-    // password is stored as provided (no hashing) per request
     const {
       email,
       user_name,
