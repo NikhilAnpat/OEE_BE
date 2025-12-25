@@ -8,6 +8,7 @@ const alertRuleRoutes = require('./routes/alertRuleRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 const eventRecordRoutes = require('./routes/eventRecordRoutes');
 const energyReadingRoutes = require('./routes/energyReadingRoutes');
+const blobRoutes = require('./routes/blobRoutes');
 const errorHandler = require('./middlewares/errorHandler');
 
 function createApp() {
@@ -27,6 +28,7 @@ function createApp() {
   app.use('/alerts', alertRoutes);
   app.use('/event-records', eventRecordRoutes);
   app.use('/energy-readings', energyReadingRoutes);
+  app.use('/blob', blobRoutes);
 
   // last
   app.use(errorHandler);
