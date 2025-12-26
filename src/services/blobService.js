@@ -1,16 +1,21 @@
 const { BlobServiceClient } = require("@azure/storage-blob");
 
-if (!process.env.AZURE_STORAGE_CONNECTION_STRING) {
-  throw new Error("AZURE_STORAGE_CONNECTION_STRING environment variable is not set");
-}
-
-const blobServiceClient = BlobServiceClient.fromConnectionString(
-  process.env.AZURE_STORAGE_CONNECTION_STRING
-);
-
 const containerName = "ecucontainer";
 
+function createBlobServiceClient() {
+  const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  if (!connectionString) {
+    const err = new Error(
+      "AZURE_STORAGE_CONNECTION_STRING environment variable is not set"
+    );
+    err.code = "AZURE_CONFIG_MISSING";
+    throw err;
+  }
+  return BlobServiceClient.fromConnectionString(connectionString);
+}
+
 async function getLatestBlobData() {
+  const blobServiceClient = createBlobServiceClient();
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   let latestBlob = null;
@@ -26,6 +31,7 @@ async function getLatestBlobData() {
   const blobClient = containerClient.getBlobClient(latestBlob.name);
   const download = await blobClient.download();
 
+  if (!download.readableStreamBody) return "";
   return await streamToString(download.readableStreamBody);
 }
 

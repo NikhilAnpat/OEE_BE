@@ -106,6 +106,12 @@ router.get("/ecu-data", async (req, res) => {
       }
     }
   } catch (err) {
+    if (err && err.code === "AZURE_CONFIG_MISSING") {
+      return res.status(503).json({
+        error: err.message,
+        hint: "Set AZURE_STORAGE_CONNECTION_STRING in OEE_BE/.env to enable blob endpoints"
+      });
+    }
     res.status(500).json({ error: err.message });
   }
 });
@@ -119,6 +125,12 @@ router.get("/ecu-data/raw", async (req, res) => {
     }
     res.type('text/plain').send(data);
   } catch (err) {
+    if (err && err.code === "AZURE_CONFIG_MISSING") {
+      return res.status(503).json({
+        error: err.message,
+        hint: "Set AZURE_STORAGE_CONNECTION_STRING in OEE_BE/.env to enable blob endpoints"
+      });
+    }
     res.status(500).json({ error: err.message });
   }
 });
